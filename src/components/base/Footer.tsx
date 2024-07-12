@@ -7,8 +7,10 @@ export const Footer: FC<FooterProps> = (props) => {
   const { className, ...rest } = props;
 
   return (
-    <footer {...rest} className={cn("bg-slate-400", className)}>
-      Footer
+    <footer {...rest} className={cn("wrapper", className)}>
+      <p className="text-center text-gray-500 text-12-regular">
+        © 2024 KanbanHub
+      </p>
     </footer>
   );
 };
