@@ -1,5 +1,5 @@
-import { ThemeProvider } from "./components/providers/Theme";
-import { ModeToggle } from "./components/shared/mode-toggle";
+import { ThemeProvider } from "@/components/providers/Theme";
+import { ModeToggle } from "@/components/shared/mode-toggle";
 
 function App() {
   return (
