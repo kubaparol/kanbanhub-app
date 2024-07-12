@@ -1,9 +1,12 @@
-import { Button } from "./components/ui/button";
+import { ThemeProvider } from "@/components/providers/Theme";
+import { ModeToggle } from "@/components/shared/mode-toggle";
 
 function App() {
   return (
     <>
-      <Button>Click me</Button>
+      <ThemeProvider>
+        <ModeToggle />
+      </ThemeProvider>
     </>
   );
 }
