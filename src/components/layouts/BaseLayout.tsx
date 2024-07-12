@@ -1,15 +1,17 @@
-import { FC, PropsWithChildren } from "react";
+import { FC } from "react";
 import { Footer } from "../base/Footer";
+import { Header } from "../base/Header";
+import { Outlet } from "react-router-dom";
 
-export interface HeaderProps extends PropsWithChildren {}
+export interface BaseLayoutProps {}
 
-export const Header: FC<HeaderProps> = (props) => {
-  const { children } = props;
-
+export const BaseLayout: FC<BaseLayoutProps> = () => {
   return (
     <>
       <Header />
-      {children}
+      <main className="min-h-[calc(100vh-57px-72px)]">
+        <Outlet />
+      </main>
       <Footer />
     </>
   );
