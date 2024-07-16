@@ -10,6 +10,7 @@ import {
 } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "../ui/dropdown-menu";
 import dayjs from "dayjs";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export interface BoardCardProps extends ComponentPropsWithoutRef<"div"> {
   board: Board;
@@ -21,15 +22,12 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
   const { board, onEditClick, onDeleteClick, className, ...rest } = props;
 
   return (
-    <div
-      {...rest}
-      className={cn("flex-between border p-4 rounded-lg", className)}
-    >
-      <header>
-        <p className="text-16-regular">{board.name}</p>
-      </header>
+    <Card {...rest} className={cn("flex-between", className)}>
+      <CardHeader>
+        <CardTitle className="text-base font-normal">{board.name}</CardTitle>
+      </CardHeader>
 
-      <div className="flex flex-col items-end gap-2">
+      <CardContent className="flex flex-col items-end gap-2 pb-0">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" className="h-8 w-8 p-0">
@@ -51,10 +49,10 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <p className="text-gray-500 text-12-regular">
-          Updated {dayjs(board.updatedAt).format("D MMMM YYYY hh:mm")}
+        <p className="text-gray-500 text-xs">
+          Updated {dayjs(board.updatedAt).format("D MMMM YYYY hh:mm A")}
         </p>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
