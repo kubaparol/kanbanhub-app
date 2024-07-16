@@ -21,6 +21,14 @@ export interface Board {
 export interface GetBoardsResponse extends Array<Board> {}
 /**/
 
+/* Edit */
+export interface EditBoardRequest extends Partial<CreateBoardRequest> {
+  id: string;
+}
+
+export interface EditBoardResponse extends Board {}
+/**/
+
 /* Delete */
 export interface DeleteBoardRequest {
   id: string;

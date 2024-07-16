@@ -11,6 +11,7 @@ import {
 export interface ModalProps extends DialogProps {
   title: string;
   description: string;
+  isLoading?: boolean;
 }
 
 export const Modal: FC<ModalProps> = (props) => {

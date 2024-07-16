@@ -4,6 +4,7 @@ import {
   CreateBoardResponse,
   DeleteBoardRequest,
   DeleteBoardResponse,
+  EditBoardRequest,
   GetBoardsResponse,
 } from "./types";
 
@@ -26,6 +27,15 @@ export class BoardModule extends AbstractApiModule {
 
     return this.fetcher<DeleteBoardResponse>(`board/${id}`, {
       method: "DELETE",
+    }).then((res) => res.data);
+  }
+
+  async edit(data: EditBoardRequest) {
+    const { id, ...rest } = data;
+
+    return this.fetcher<EditBoardRequest>(`board/${id}`, {
+      method: "PATCH",
+      data: rest,
     }).then((res) => res.data);
   }
 }
