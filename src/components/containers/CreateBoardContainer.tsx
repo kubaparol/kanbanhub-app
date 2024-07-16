@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,11 +7,28 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { CreateBoardForm } from "../forms/CreateBoardForm";
+import {
+  CreateBoardForm,
+  CreateBoardFormValues,
+} from "../forms/CreateBoardForm";
+import { useCreateBoardMutation } from "@/lib/react-query/mutations";
 
 export interface CreateBoardContainerProps {}
 
 export const CreateBoardContainer: FC<CreateBoardContainerProps> = () => {
+  const { mutateAsync: createBoard } = useCreateBoardMutation();
+
+  const createBoardHandler = useCallback(
+    async (values: CreateBoardFormValues) => {
+      try {
+        await createBoard(values);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [createBoard]
+  );
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -29,7 +46,7 @@ export const CreateBoardContainer: FC<CreateBoardContainerProps> = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <CreateBoardForm onFormSubmit={(value) => console.log(value)} />
+        <CreateBoardForm onFormSubmit={createBoardHandler} />
       </DialogContent>
     </Dialog>
   );
