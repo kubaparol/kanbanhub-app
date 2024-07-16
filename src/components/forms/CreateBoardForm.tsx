@@ -23,16 +23,17 @@ const createBoardFormSchema = z.object({
 export type CreateBoardFormValues = z.infer<typeof createBoardFormSchema>;
 
 export interface CreateBoardFormProps {
+  initialValues?: CreateBoardFormValues;
   onFormSubmit: (values: CreateBoardFormValues) => void;
 }
 
 export const CreateBoardForm: FC<CreateBoardFormProps> = (props) => {
-  const { onFormSubmit } = props;
+  const { initialValues, onFormSubmit } = props;
 
   const form = useForm<CreateBoardFormValues>({
     resolver: zodResolver(createBoardFormSchema),
     defaultValues: {
-      name: "",
+      name: initialValues?.name || "",
     },
   });
 

@@ -8,9 +8,7 @@ export const Footer: FC<FooterProps> = (props) => {
 
   return (
     <footer {...rest} className={cn("wrapper", className)}>
-      <p className="text-center text-gray-500 text-12-regular">
-        © 2024 KanbanHub
-      </p>
+      <p className="text-center text-gray-500 text-xs">© 2024 KanbanHub</p>
     </footer>
   );
 };
