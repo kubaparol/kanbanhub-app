@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,25 +12,31 @@ import {
   CreateBoardFormValues,
 } from "../forms/CreateBoardForm";
 import { useCreateBoardMutation } from "@/lib/react-query/mutations";
+import { toast } from "sonner";
 
 export interface CreateBoardContainerProps {}
 
 export const CreateBoardContainer: FC<CreateBoardContainerProps> = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const { mutateAsync: createBoard } = useCreateBoardMutation();
 
   const createBoardHandler = useCallback(
     async (values: CreateBoardFormValues) => {
       try {
         await createBoard(values);
+
+        setIsOpen(false);
+        toast.success("Board created successfully");
       } catch (error) {
-        console.error(error);
+        toast.error("Failed to create board");
       }
     },
     [createBoard]
   );
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>Create board</Button>
       </DialogTrigger>
