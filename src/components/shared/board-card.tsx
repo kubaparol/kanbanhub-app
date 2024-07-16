@@ -13,10 +13,12 @@ import dayjs from "dayjs";
 
 export interface BoardCardProps extends ComponentPropsWithoutRef<"div"> {
   board: Board;
+  onEditClick: () => void;
+  onDeleteClick: () => void;
 }
 
 export const BoardCard: FC<BoardCardProps> = (props) => {
-  const { board, className, ...rest } = props;
+  const { board, onEditClick, onDeleteClick, className, ...rest } = props;
 
   return (
     <div
@@ -37,12 +39,12 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={onEditClick}>
               <Pencil className="mr-2 h-4 w-4" />
               <span>Edit name</span>
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={onDeleteClick}>
               <Trash2 className="mr-2 h-4 w-4" />
               <span>Delete</span>
             </DropdownMenuItem>

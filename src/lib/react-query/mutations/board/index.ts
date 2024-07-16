@@ -1,1 +1,2 @@
-export * from "./create-board";
+export * from "./create";
+export * from "./delete";

@@ -20,3 +20,11 @@ export interface Board {
 
 export interface GetBoardsResponse extends Array<Board> {}
 /**/
+
+/* Delete */
+export interface DeleteBoardRequest {
+  id: string;
+}
+
+export interface DeleteBoardResponse extends Board {}
+/**/

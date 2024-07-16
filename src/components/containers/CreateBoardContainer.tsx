@@ -1,18 +1,12 @@
 import { FC, useCallback, useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import {
   CreateBoardForm,
   CreateBoardFormValues,
 } from "../forms/CreateBoardForm";
-import { useCreateBoardMutation } from "@/lib/react-query/mutations";
+import { useCreateBoardMutation } from "@/lib/react-query";
 import { toast } from "sonner";
+import { Modal } from "../base/Modal";
+import { Button } from "../ui/button";
 
 export interface CreateBoardContainerProps {}
 
@@ -36,24 +30,17 @@ export const CreateBoardContainer: FC<CreateBoardContainerProps> = () => {
   );
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button>Create board</Button>
-      </DialogTrigger>
+    <>
+      <Button onClick={() => setIsOpen(true)}>Create board</Button>
 
-      <DialogContent className="grid gap-8">
-        <DialogHeader>
-          <DialogTitle className="text-18-bold md:text-24-bold">
-            Create a new board
-          </DialogTitle>
-
-          <DialogDescription className="text-14-regular md:text-16-regular">
-            Fill in the details below to create a new board
-          </DialogDescription>
-        </DialogHeader>
-
+      <Modal
+        open={isOpen}
+        onOpenChange={() => setIsOpen(!isOpen)}
+        title="Create a new board"
+        description="Fill in the details below to create a new board"
+      >
         <CreateBoardForm onFormSubmit={createBoardHandler} />
-      </DialogContent>
-    </Dialog>
+      </Modal>
+    </>
   );
 };

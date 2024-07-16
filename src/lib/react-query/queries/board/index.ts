@@ -1,1 +1,1 @@
-export * from "./get-boards";
+export * from "./get-all";
