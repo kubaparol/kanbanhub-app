@@ -5,6 +5,9 @@ import {
   DeleteBoardRequest,
   DeleteBoardResponse,
   EditBoardRequest,
+  GetBoardRequest,
+  GetBoardResponse,
+  GetBoardsRequest,
   GetBoardsResponse,
 } from "./types";
 
@@ -16,9 +19,19 @@ export class BoardModule extends AbstractApiModule {
     }).then((res) => res.data);
   }
 
-  async getAll() {
+  async getAll(data: GetBoardsRequest) {
     return this.fetcher<GetBoardsResponse>("board", {
       method: "GET",
+      data,
+    }).then((res) => res.data);
+  }
+
+  async getOne(data: GetBoardRequest) {
+    const { id, ...rest } = data;
+
+    return this.fetcher<GetBoardResponse>(`board/${id}`, {
+      method: "GET",
+      data: { ...rest },
     }).then((res) => res.data);
   }
 
