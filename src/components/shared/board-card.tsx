@@ -11,6 +11,8 @@ import {
 import { DropdownMenuTrigger } from "../ui/dropdown-menu";
 import dayjs from "dayjs";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Link } from "react-router-dom";
+import { AppUrls } from "@/router/urls";
 
 export interface BoardCardProps extends ComponentPropsWithoutRef<"div"> {
   board: Board;
@@ -24,7 +26,9 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
   return (
     <Card {...rest} className={cn("flex-between", className)}>
       <CardHeader>
-        <CardTitle className="text-base font-normal">{board.name}</CardTitle>
+        <Link to={AppUrls.board(board.id)} className="hover:underline">
+          <CardTitle className="text-base font-normal">{board.name}</CardTitle>
+        </Link>
       </CardHeader>
 
       <CardContent className="flex flex-col items-end gap-2 pb-0">

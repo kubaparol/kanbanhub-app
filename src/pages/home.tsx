@@ -1,7 +1,7 @@
+import { FC } from "react";
 import { HomeTemplate } from "@/components/templates/HomeTemplate";
-import React from "react";
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
   return <HomeTemplate />;
 };
 

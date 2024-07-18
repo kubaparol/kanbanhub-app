@@ -4,18 +4,22 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import { AppUrls } from "./urls";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
+import BoardPage from "@/pages/board";
 
 const HomePage = lazy(() => import("@/pages/home"));
 
 const routes: RouteObject = {
-  path: AppUrls.home,
+  path: "/",
   element: <BaseLayout />,
   children: [
     {
       path: "",
       element: <HomePage />,
+    },
+    {
+      path: "/boards/:id",
+      element: <BoardPage />,
     },
   ],
 };
