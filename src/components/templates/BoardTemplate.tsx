@@ -12,6 +12,7 @@ import { AppUrls } from "@/router/urls";
 import { Slash } from "lucide-react";
 import { useGetBoardQuery } from "@/lib";
 import { Skeleton } from "../ui/skeleton";
+import { CreateColumnContainer } from "../containers/CreateColumnContainer";
 
 export interface BoardTemplateProps
   extends ComponentPropsWithoutRef<"section"> {
@@ -46,8 +47,16 @@ export const BoardTemplate: FC<BoardTemplateProps> = (props) => {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+
+          <CreateColumnContainer boardId={id} />
         </header>
       )}
+
+      <ul>
+        {board?.columns.map((column) => (
+          <li key={column.id}>{column.name}</li>
+        ))}
+      </ul>
     </section>
   );
 };

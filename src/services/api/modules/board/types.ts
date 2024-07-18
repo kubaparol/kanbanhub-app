@@ -1,6 +1,9 @@
+import { Column } from "../column/types";
+
 export interface Board {
   id: string;
   name: string;
+  columns: Array<Column>;
   createdAt: string;
   updatedAt: string;
 }
@@ -26,9 +29,7 @@ export interface GetBoardRequest {
   id?: string;
 }
 
-export interface GetBoardResponse extends Board {
-  columns: Array<unknown>;
-}
+export interface GetBoardResponse extends Board {}
 /**/
 
 /* Edit */
