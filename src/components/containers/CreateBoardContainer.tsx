@@ -6,7 +6,7 @@ import {
 import { useCreateBoardMutation } from "@/lib/react-query";
 import { toast } from "sonner";
 import { Modal } from "../base/Modal";
-import { Button } from "../ui/button";
+import { Button } from "../ui";
 
 export interface CreateBoardContainerProps {}
 

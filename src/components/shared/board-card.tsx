@@ -1,16 +1,19 @@
 import { Board } from "@/services/api/modules/board/types";
 import { cn } from "@/utils";
 import { ComponentPropsWithoutRef, FC } from "react";
-import { Button } from "../ui/button";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "../ui/dropdown-menu";
-import { DropdownMenuTrigger } from "../ui/dropdown-menu";
+  DropdownMenuTrigger,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../ui";
 import dayjs from "dayjs";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
 

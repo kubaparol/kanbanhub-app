@@ -1,13 +1,13 @@
 import { useGetBoardQuery } from "@/lib";
 import { FC } from "react";
-import { Skeleton } from "../ui/skeleton";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "../ui/breadcrumb";
+  Skeleton,
+} from "../ui";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
 import { Slash } from "lucide-react";

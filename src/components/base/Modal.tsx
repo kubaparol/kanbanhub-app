@@ -6,7 +6,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
+} from "../ui";
 
 export interface ModalProps extends DialogProps {
   title: string;

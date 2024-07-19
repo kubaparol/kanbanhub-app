@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../ui/alert-dialog";
+} from "../ui";
 
 export interface AlertModalProps extends AlertDialogProps {
   title: string;

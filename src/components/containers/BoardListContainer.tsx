@@ -4,8 +4,8 @@ import {
   useEditBoardMutation,
 } from "@/lib/react-query";
 import { FC, useCallback, useState } from "react";
-import { BoardCard } from "../shared/board-card";
-import { Skeleton } from "../ui/skeleton";
+import { BoardCard } from "../shared";
+import { Skeleton } from "../ui";
 import { toast } from "sonner";
 import { AlertModal } from "../base/AlertModal";
 import { Modal } from "../base/Modal";
