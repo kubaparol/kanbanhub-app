@@ -14,6 +14,8 @@ import {
   CreateBoardFormValues,
 } from "../forms/CreateBoardForm";
 import { Board } from "@/services/api/modules/board/types";
+import { Link } from "react-router-dom";
+import { AppUrls } from "@/router/urls";
 
 export interface BoardListContainerProps {}
 
@@ -59,7 +61,7 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
 
   return (
     <>
-      <ul className="grid gap-4">
+      <ul className="h-fit grid gap-6 grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]">
         {isGettingBoards &&
           Array.from({ length: 3 }).map((_, index) => (
             <li key={index}>
@@ -70,11 +72,13 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
         {!isGettingBoards &&
           boards?.map((board) => (
             <li key={board.id}>
-              <BoardCard
-                board={board}
-                onEditClick={() => setBoardToEdit(board)}
-                onDeleteClick={() => setBoardToDelete(board.id)}
-              />
+              <Link to={AppUrls.board(board.id)}>
+                <BoardCard
+                  board={board}
+                  onEditClick={() => setBoardToEdit(board)}
+                  onDeleteClick={() => setBoardToDelete(board.id)}
+                />
+              </Link>
             </li>
           ))}
       </ul>

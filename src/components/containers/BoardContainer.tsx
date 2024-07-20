@@ -48,9 +48,9 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         </header>
       )}
 
-      <ul className="grid grid-flow-col auto-cols-[minmax(250px,_350px)] overflow-auto gap-6">
+      <ul className="grid grid-flow-col auto-cols-[minmax(250px,_350px)] overflow-auto gap-6 py-2">
         {board?.columns.map((column) => (
-          <li key={column.id} className="border-2 rounded-md">
+          <li key={column.id} className="border rounded-md shadow-sm">
             <header className="border-b-2 p-3">
               <p className="text-center text-sm">{column.name}</p>
             </header>
