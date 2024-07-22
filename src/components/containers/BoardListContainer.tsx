@@ -53,9 +53,9 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
       await deleteBoard({ id: boardToDelete });
 
       setBoardToDelete(null);
-      toast.success("Board deleted successfully");
+      toast.success("Column deleted successfully");
     } catch (error) {
-      toast.error("Failed to delete board");
+      toast.error("Failed to delete column");
     }
   }, [boardToDelete, deleteBoard]);
 

@@ -1,5 +1,5 @@
-import { useGetBoardQuery } from "@/lib";
-import { FC } from "react";
+import { useDeleteColumnMutation, useGetBoardQuery } from "@/lib";
+import { FC, useCallback, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
 import { EmptyBoardPlaceholder } from "../shared/EmptyBoardPlaceholder";
+import { AlertModal } from "../base/AlertModal";
+import { toast } from "sonner";
 
 export interface BoardContainerProps {
   id?: string;
@@ -32,7 +34,25 @@ export interface BoardContainerProps {
 export const BoardContainer: FC<BoardContainerProps> = (props) => {
   const { id } = props;
 
+  const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
+
   const { data: board, isFetching: isGettingBoard } = useGetBoardQuery({ id });
+
+  const { mutateAsync: deleteColumn, isPending: isDeletingColumn } =
+    useDeleteColumnMutation();
+
+  const deleteColumnHandler = useCallback(async () => {
+    try {
+      if (!columnToDelete) return;
+
+      await deleteColumn({ id: columnToDelete });
+
+      setColumnToDelete(null);
+      toast.success("Board deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete board");
+    }
+  }, [columnToDelete, deleteColumn]);
 
   return (
     <>
@@ -86,7 +106,9 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
                       <span>Edit name</span>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem onClick={() => undefined}>
+                    <DropdownMenuItem
+                      onClick={() => setColumnToDelete(column.id)}
+                    >
                       <Trash2 className="mr-2 h-4 w-4" />
                       <span>Delete</span>
                     </DropdownMenuItem>
@@ -108,6 +130,15 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
           ))}
         </ul>
       )}
+
+      <AlertModal
+        open={!!columnToDelete}
+        onOpenChange={() => setColumnToDelete(null)}
+        title="Are you absolutely sure?"
+        description="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+        isLoading={isDeletingColumn}
+        onConfirm={deleteColumnHandler}
+      />
     </>
   );
 };

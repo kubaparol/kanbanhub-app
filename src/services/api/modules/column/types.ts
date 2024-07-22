@@ -15,3 +15,15 @@ export interface CreateColumnResponse extends CreateColumnRequest {
   id: string;
 }
 /**/
+
+/* Delete */
+export interface DeleteColumnRequest {
+  id: string;
+}
+
+export interface DeleteColumnResponse {
+  id: string;
+  name: string;
+  boardId: string;
+}
+/**/
