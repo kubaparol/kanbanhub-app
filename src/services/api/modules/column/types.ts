@@ -17,6 +17,16 @@ export interface CreateColumnResponse extends CreateColumnRequest {
 /**/
 
 /* Delete */
+export interface EditColumnRequest extends Partial<CreateColumnRequest> {
+  id: string;
+}
+
+export interface EditColumnResponse extends Column {
+  boardId: string;
+}
+/**/
+
+/* Delete */
 export interface DeleteColumnRequest {
   id: string;
 }
