@@ -11,3 +11,4 @@ export * from "./progress";
 export * from "./skeleton";
 export * from "./sonner";
 export * from "./sonner";
+export * from "./tooltip";

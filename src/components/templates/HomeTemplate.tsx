@@ -12,7 +12,7 @@ export const HomeTemplate: FC<HomeTemplateProps> = (props) => {
   return (
     <section
       {...rest}
-      className={cn("wrapper bg-white rounded-3xl grid gap-6", className)}
+      className={cn("wrapper rounded-3xl grid gap-6", className)}
     >
       <header className="flex-between p-2">
         <h1 className="text-3xl font-semibold">Boards</h1>

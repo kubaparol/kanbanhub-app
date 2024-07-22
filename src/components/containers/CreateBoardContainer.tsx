@@ -31,7 +31,9 @@ export const CreateBoardContainer: FC<CreateBoardContainerProps> = () => {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Create board</Button>
+      <Button size="lg" className="text-base" onClick={() => setIsOpen(true)}>
+        Create board
+      </Button>
 
       <Modal
         open={isOpen}

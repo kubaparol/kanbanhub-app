@@ -40,7 +40,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
     <Card
       {...rest}
       className={cn(
-        "shadow-[0_0_40px_-16px_rgba(0,0,0,0.2)] hover:bg-blue-50/40 transition-colors border-none rounded-3xl",
+        "shadow-[0_0_42px_-18px_rgba(0,0,0,0.3)] border-none rounded-3xl transition-transform duration-300 ease-out hover:scale-105",
         className
       )}
     >

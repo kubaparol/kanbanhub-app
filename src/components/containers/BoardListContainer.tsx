@@ -61,7 +61,7 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
 
   return (
     <>
-      <ul className="h-fit grid gap-6 grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]">
+      <ul className="h-fit grid gap-6 grid-cols-[repeat(auto-fit,_minmax(360px,_1fr))]">
         {isGettingBoards &&
           Array.from({ length: 3 }).map((_, index) => (
             <li key={index}>
