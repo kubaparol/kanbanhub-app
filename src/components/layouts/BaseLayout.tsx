@@ -6,7 +6,7 @@ export interface BaseLayoutProps {}
 
 export const BaseLayout: FC<BaseLayoutProps> = () => {
   return (
-    <div className="min-h-screen bg-dotted-pattern bg-gray-50">
+    <div className="min-h-screen bg-dotted-pattern">
       <Header />
       <main>
         <Outlet />

@@ -7,16 +7,23 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   Skeleton,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
 } from "../ui";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
-import { Plus, Slash, Trash2 } from "lucide-react";
+import {
+  MoreHorizontal,
+  Pencil,
+  PlusCircle,
+  Slash,
+  Trash2,
+} from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
+import { EmptyBoardPlaceholder } from "../shared/EmptyBoardPlaceholder";
 
 export interface BoardContainerProps {
   id?: string;
@@ -53,53 +60,54 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         </header>
       )}
 
-      <ul className="grid grid-flow-col auto-cols-[minmax(250px,_350px)] overflow-auto gap-8 py-2 bg-white wrapper rounded-3xl">
-        {board?.columns.map((column) => (
-          <li key={column.id} className="grid gap-2">
-            <header className="flex-between">
-              <p className="text-base">{column.name}</p>
+      {board?.columns.length === 0 ? (
+        <EmptyBoardPlaceholder />
+      ) : (
+        <ul className="grid grid-flow-col auto-cols-[minmax(300px,_400px)] gap-6">
+          {board?.columns.map((column) => (
+            <li
+              key={column.id}
+              className="flex flex-col gap-4 shadow-lg rounded-lg bg-teal-50 backdrop-blur-sm p-4"
+            >
+              <header className="flex-between">
+                <p className="text-lg font-semibold">{column.name}</p>
 
-              <div className="flex-center gap-1">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Button size="icon" variant="ghost">
-                        <Plus className="size-5" />
-                      </Button>
-                    </TooltipTrigger>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal size={20} />
+                    </Button>
+                  </DropdownMenuTrigger>
 
-                    <TooltipContent sideOffset={8}>
-                      <p className="text-sm">Add new task</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => undefined}>
+                      <Pencil className="mr-2 h-4 w-4" />
+                      <span>Edit name</span>
+                    </DropdownMenuItem>
 
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Button size="icon" variant="ghost">
-                        <Trash2 className="size-5" />
-                      </Button>
-                    </TooltipTrigger>
+                    <DropdownMenuItem onClick={() => undefined}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      <span>Delete</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </header>
 
-                    <TooltipContent sideOffset={8}>
-                      <p className="text-sm">Delete column</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            </header>
+              <ul className="grid gap-4">
+                {/* <li className="bg-yellow-100 shadow-sm py-2 px-4 rounded-lg">
+                  Task 1
+                </li> */}
+              </ul>
 
-            <div className="p-4 border rounded-md shadow-sm min-h-72 flex flex-col">
-              <div className="grid items-center flex-grow">
-                <p className="text-sm text-gray-400 font-light text-center">
-                  No tasks
-                </p>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+              <Button variant="outline" className="w-full mt-auto">
+                Add task
+                <PlusCircle className="ml-2 size-4" />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 };
