@@ -1,7 +1,7 @@
 import { FC, useCallback, useState } from "react";
 import { toast } from "sonner";
 import { Modal } from "../base/Modal";
-import { Button } from "../ui/button";
+import { Button } from "../ui";
 import { useCreateColumnMutation } from "@/lib/react-query";
 import {
   CreateColumnForm,

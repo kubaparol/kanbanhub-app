@@ -6,7 +6,7 @@ import {
 import { useCreateBoardMutation } from "@/lib/react-query";
 import { toast } from "sonner";
 import { Modal } from "../base/Modal";
-import { Button } from "../ui/button";
+import { Button } from "../ui";
 
 export interface CreateBoardContainerProps {}
 
@@ -31,7 +31,9 @@ export const CreateBoardContainer: FC<CreateBoardContainerProps> = () => {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Create board</Button>
+      <Button size="lg" className="text-base" onClick={() => setIsOpen(true)}>
+        Create board
+      </Button>
 
       <Modal
         open={isOpen}

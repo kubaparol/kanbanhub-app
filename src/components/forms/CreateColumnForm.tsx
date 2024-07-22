@@ -8,9 +8,9 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+  Input,
+  Button,
+} from "../ui";
 import { Loader2 } from "lucide-react";
 
 const createColumnFormSchema = z.object({

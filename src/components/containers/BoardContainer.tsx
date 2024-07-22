@@ -1,17 +1,29 @@
 import { useGetBoardQuery } from "@/lib";
 import { FC } from "react";
-import { Skeleton } from "../ui/skeleton";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "../ui/breadcrumb";
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Skeleton,
+} from "../ui";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
-import { Slash } from "lucide-react";
+import {
+  MoreHorizontal,
+  Pencil,
+  PlusCircle,
+  Slash,
+  Trash2,
+} from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
+import { EmptyBoardPlaceholder } from "../shared/EmptyBoardPlaceholder";
 
 export interface BoardContainerProps {
   id?: string;
@@ -48,17 +60,54 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         </header>
       )}
 
-      <ul className="grid grid-flow-col auto-cols-[minmax(250px,_350px)] overflow-auto gap-6">
-        {board?.columns.map((column) => (
-          <li key={column.id} className="border-2 rounded-md">
-            <header className="border-b-2 p-3">
-              <p className="text-center text-sm">{column.name}</p>
-            </header>
+      {board?.columns.length === 0 ? (
+        <EmptyBoardPlaceholder />
+      ) : (
+        <ul className="grid grid-flow-col auto-cols-[minmax(300px,_400px)] gap-6">
+          {board?.columns.map((column) => (
+            <li
+              key={column.id}
+              className="flex flex-col gap-4 shadow-lg rounded-lg bg-teal-50 backdrop-blur-sm p-4"
+            >
+              <header className="flex-between">
+                <p className="text-lg font-semibold">{column.name}</p>
 
-            <div className="p-4">...</div>
-          </li>
-        ))}
-      </ul>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal size={20} />
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => undefined}>
+                      <Pencil className="mr-2 h-4 w-4" />
+                      <span>Edit name</span>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem onClick={() => undefined}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      <span>Delete</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </header>
+
+              <ul className="grid gap-4">
+                {/* <li className="bg-yellow-100 shadow-sm py-2 px-4 rounded-lg">
+                  Task 1
+                </li> */}
+              </ul>
+
+              <Button variant="outline" className="w-full mt-auto">
+                Add task
+                <PlusCircle className="ml-2 size-4" />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 };
