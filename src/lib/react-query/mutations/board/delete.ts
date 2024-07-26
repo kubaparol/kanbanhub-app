@@ -11,7 +11,7 @@ export const useDeleteBoardMutation = () => {
       queryClient.setQueryData(
         [BOARDS_QUERY_KEY],
         (previousBoards: Board[]) => {
-          if (!previousBoards) undefined;
+          if (!previousBoards) return undefined;
 
           return previousBoards.filter((previous) => previous.id !== board.id);
         }

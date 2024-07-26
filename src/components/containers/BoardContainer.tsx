@@ -171,7 +171,7 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         description="Update the details below to edit the column"
       >
         <CreateColumnForm
-          initialValues={{ name: columnToEdit?.name || "" }}
+          initialValues={{ name: columnToEdit?.name || "", boardId: id || "" }}
           onFormSubmit={editColumnHandler}
         />
       </Modal>

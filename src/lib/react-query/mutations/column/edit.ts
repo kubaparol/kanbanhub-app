@@ -11,7 +11,16 @@ export const useEditColumnMutation = () => {
       queryClient.setQueryData(
         [BOARD_QUERY_KEY, column.boardId],
         (previousBoard: Board) => {
-          if (!previousBoard) undefined;
+          if (!previousBoard) return undefined;
+          console.log(column.boardId);
+          console.log(previousBoard.id);
+
+          if (column.boardId !== previousBoard.id) {
+            return {
+              ...previousBoard,
+              columns: previousBoard.columns.filter((c) => c.id !== column.id),
+            };
+          }
 
           return {
             ...previousBoard,

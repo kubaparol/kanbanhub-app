@@ -10,30 +10,42 @@ import {
   FormMessage,
   Input,
   Button,
+  Select,
+  FormLabel,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  Skeleton,
 } from "../ui";
 import { Loader2 } from "lucide-react";
+import { useGetBoardsQuery } from "@/lib";
 
 const createColumnFormSchema = z.object({
   name: z
     .string()
     .min(3, "Name must be at least 3 characters")
     .max(255, "Name must be at most 255 characters"),
+  boardId: z.string(),
 });
 
 export type CreateColumnFormValues = z.infer<typeof createColumnFormSchema>;
 
 export interface CreateColumnFormProps {
-  initialValues?: CreateColumnFormValues;
+  initialValues?: Partial<CreateColumnFormValues>;
   onFormSubmit: (values: CreateColumnFormValues) => void;
 }
 
 export const CreateColumnForm: FC<CreateColumnFormProps> = (props) => {
   const { initialValues, onFormSubmit } = props;
 
+  const { data: boards, isFetching: isGettingBoards } = useGetBoardsQuery();
+
   const form = useForm<CreateColumnFormValues>({
     resolver: zodResolver(createColumnFormSchema),
     defaultValues: {
       name: initialValues?.name || "",
+      boardId: initialValues?.boardId || "",
     },
   });
 
@@ -47,9 +59,45 @@ export const CreateColumnForm: FC<CreateColumnFormProps> = (props) => {
           name="name"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Name</FormLabel>
+
               <FormControl>
                 <Input {...field} placeholder="My example column" />
               </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="boardId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Board</FormLabel>
+
+              {isGettingBoards && <Skeleton className="h-10" />}
+
+              {!isGettingBoards && (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a parent"></SelectValue>
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {boards?.map((board) => (
+                      <SelectItem key={board.id} value={board.id}>
+                        {board.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
 
               <FormMessage />
             </FormItem>
