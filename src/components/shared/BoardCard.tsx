@@ -1,13 +1,17 @@
 import { Board } from "@/services/api/modules/board/types";
 import { cn } from "@/utils";
-import { ComponentPropsWithoutRef, FC, MouseEvent, useCallback } from "react";
+import {
+  ComponentPropsWithoutRef,
+  FC,
+  MouseEvent,
+  useCallback,
+  useState,
+} from "react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
-  CardContent,
-  Progress,
   CardFooter,
   DropdownMenu,
   DropdownMenuTrigger,
@@ -15,7 +19,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "../ui";
-import { ClipboardList, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import dayjs from "dayjs";
 
 export interface BoardCardProps extends ComponentPropsWithoutRef<"div"> {
@@ -27,9 +31,13 @@ export interface BoardCardProps extends ComponentPropsWithoutRef<"div"> {
 export const BoardCard: FC<BoardCardProps> = (props) => {
   const { board, onEditClick, onDeleteClick, className, ...rest } = props;
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const dropdownMenuClickHandler = useCallback(
     (evt: MouseEvent<HTMLDivElement> | undefined, cb: () => void) => {
       evt?.preventDefault();
+
+      setIsDropdownOpen(false);
 
       cb();
     },
@@ -40,7 +48,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
     <Card
       {...rest}
       className={cn(
-        "shadow-[0_0_42px_-18px_rgba(0,0,0,0.3)] border-none rounded-3xl transition-transform duration-300 ease-out hover:scale-105",
+        "shadow-[0_0_42px_-18px_rgba(0,0,0,0.3)] border-none rounded-3xl transition-all duration-300 ease-out hover:shadow-[0_0_42px_-18px_rgba(0,0,0,0.05)] hover:bg-secondary",
         className
       )}
     >
@@ -50,7 +58,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
             {board.name}
           </CardTitle>
 
-          <DropdownMenu>
+          <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
@@ -83,18 +91,18 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
+      {/* <CardContent>
         <div className="grid gap-1">
           <p className="text-end text-sm text-gray-400">59%</p>
           <Progress value={59} className="h-2" />
         </div>
-      </CardContent>
+      </CardContent> */}
 
       <CardFooter className="flex-between">
-        <div className="flex-center gap-1 text-gray-600">
+        {/* <div className="flex-center gap-1 text-gray-600">
           <ClipboardList size={18} />
           <p className="text-sm">10</p>
-        </div>
+        </div> */}
 
         <p className="text-gray-500 text-xs">
           Updated {dayjs(board.updatedAt).format("D MMMM YYYY hh:mm A")}
