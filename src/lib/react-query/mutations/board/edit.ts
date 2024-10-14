@@ -11,7 +11,7 @@ export const useEditBoardMutation = () => {
       queryClient.setQueryData(
         [BOARDS_QUERY_KEY],
         (previousBoards: Board[]) => {
-          if (!previousBoards) undefined;
+          if (!previousBoards) return undefined;
 
           return previousBoards.map((prevBoard) =>
             prevBoard.id === board.id ? board : prevBoard

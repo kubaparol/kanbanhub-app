@@ -27,7 +27,6 @@ import {
   Trash2,
 } from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
-import { EmptyBoardPlaceholder } from "../shared/EmptyBoardPlaceholder";
 import { AlertModal } from "../base/AlertModal";
 import { toast } from "sonner";
 import { Column } from "@/services/api/modules/column/types";
@@ -36,6 +35,7 @@ import {
   CreateColumnForm,
   CreateColumnFormValues,
 } from "../forms/CreateColumnForm";
+import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
 
 export interface BoardContainerProps {
   id?: string;
@@ -110,7 +110,10 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
           </header>
 
           {board.columns.length === 0 ? (
-            <EmptyBoardPlaceholder />
+            <NoDataPlaceholder
+              title="No columns found"
+              description="Create a new column to get started"
+            />
           ) : (
             <ul className="grid grid-flow-col auto-cols-[minmax(300px,_400px)] gap-6">
               {board?.columns.map((column) => (
@@ -171,7 +174,7 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         description="Update the details below to edit the column"
       >
         <CreateColumnForm
-          initialValues={{ name: columnToEdit?.name || "" }}
+          initialValues={{ name: columnToEdit?.name || "", boardId: id || "" }}
           onFormSubmit={editColumnHandler}
         />
       </Modal>

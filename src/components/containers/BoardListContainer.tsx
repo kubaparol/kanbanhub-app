@@ -16,6 +16,7 @@ import {
 import { Board } from "@/services/api/modules/board/types";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
+import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
 
 export interface BoardListContainerProps {}
 
@@ -61,7 +62,14 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
 
   return (
     <>
-      <ul className="h-fit grid gap-6 grid-cols-[repeat(auto-fit,_minmax(360px,_1fr))]">
+      {!isGettingBoards && boards?.length === 0 && (
+        <NoDataPlaceholder
+          title="No boards found"
+          description="Create a new board to get started"
+        />
+      )}
+
+      <ul className="h-fit grid gap-6 grid-cols-[repeat(auto-fill,minmax(360px,1fr))]">
         {isGettingBoards &&
           Array.from({ length: 3 }).map((_, index) => (
             <li key={index}>
@@ -70,6 +78,8 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
           ))}
 
         {!isGettingBoards &&
+          boards &&
+          boards?.length > 0 &&
           boards?.map((board) => (
             <li key={board.id}>
               <Link to={AppUrls.board(board.id)}>
@@ -82,7 +92,6 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
             </li>
           ))}
       </ul>
-
       <Modal
         open={!!boardToEdit}
         onOpenChange={() => setBoardToEdit(null)}
@@ -94,12 +103,11 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
           onFormSubmit={editBoardHandler}
         />
       </Modal>
-
       <AlertModal
         open={!!boardToDelete}
         onOpenChange={() => setBoardToDelete(null)}
         title="Are you absolutely sure?"
-        description="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+        description="This action cannot be undone. It will permanently delete the board, all its columns and any tasks contained within them."
         isLoading={isDeletingBoard}
         onConfirm={deleteBoardHandler}
       />

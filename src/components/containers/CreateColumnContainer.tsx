@@ -23,21 +23,19 @@ export const CreateColumnContainer: FC<CreateColumnContainerProps> = (
 
   const createColumnHandler = useCallback(
     async (values: CreateColumnFormValues) => {
-      if (!boardId) return;
-
       try {
         await createColumn({
           ...values,
-          boardId,
         });
 
         setIsOpen(false);
         toast.success("Column created successfully");
       } catch (error) {
         toast.error("Failed to create column");
+        console.log(error);
       }
     },
-    [boardId, createColumn]
+    [createColumn]
   );
 
   return (
@@ -50,7 +48,10 @@ export const CreateColumnContainer: FC<CreateColumnContainerProps> = (
         title="Create a new column"
         description="Fill in the details below to create a new column"
       >
-        <CreateColumnForm onFormSubmit={createColumnHandler} />
+        <CreateColumnForm
+          onFormSubmit={createColumnHandler}
+          initialValues={{ boardId: boardId! }}
+        />
       </Modal>
     </>
   );

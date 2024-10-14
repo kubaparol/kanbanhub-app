@@ -11,7 +11,7 @@ export const useCreateColumnMutation = () => {
       queryClient.setQueryData(
         [BOARD_QUERY_KEY, column.boardId],
         (previousBoard: Board) => {
-          if (!previousBoard) undefined;
+          if (!previousBoard) return undefined;
 
           return {
             ...previousBoard,
