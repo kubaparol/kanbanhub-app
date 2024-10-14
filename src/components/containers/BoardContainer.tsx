@@ -19,13 +19,7 @@ import {
 } from "../ui";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
-import {
-  MoreHorizontal,
-  Pencil,
-  PlusCircle,
-  Slash,
-  Trash2,
-} from "lucide-react";
+import { MoreHorizontal, Pencil, Slash, Trash2 } from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
 import { AlertModal } from "../base/AlertModal";
 import { toast } from "sonner";
@@ -36,6 +30,7 @@ import {
   CreateColumnFormValues,
 } from "../forms/CreateColumnForm";
 import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
+import { CreateTaskContainer } from "./CreateTaskContainer";
 
 export interface BoardContainerProps {
   id?: string;
@@ -150,16 +145,29 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
                     </DropdownMenu>
                   </header>
 
-                  <ul className="grid gap-4">
-                    {/* <li className="bg-yellow-100 shadow-sm py-2 px-4 rounded-lg">
-                    Task 1
-                  </li> */}
-                  </ul>
+                  {column.tasks.length === 0 && (
+                    <p className="text-center italic text-gray-400 font-light text-sm py-4">
+                      No tasks
+                    </p>
+                  )}
 
-                  <Button variant="outline" className="w-full mt-auto">
-                    Add task
-                    <PlusCircle className="ml-2 size-4" />
-                  </Button>
+                  {column.tasks.length > 0 && (
+                    <ul className="grid gap-4">
+                      {column.tasks.map((task) => (
+                        <li
+                          key={task.id}
+                          className="bg-yellow-100 shadow-sm py-2 px-4 rounded-lg"
+                        >
+                          {task.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <CreateTaskContainer
+                    boardId={board.id}
+                    columnId={column.id}
+                  />
                 </li>
               ))}
             </ul>
@@ -183,7 +191,7 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         open={!!columnToDelete}
         onOpenChange={() => setColumnToDelete(null)}
         title="Are you absolutely sure?"
-        description="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+        description="This action cannot be undone. It will permanently delete the column and all tasks contained within it."
         isLoading={isDeletingColumn}
         onConfirm={deleteColumnHandler}
       />

@@ -5,6 +5,7 @@ import {
   DeleteColumnRequest,
   DeleteColumnResponse,
   EditColumnRequest,
+  EditColumnResponse,
 } from "./types";
 
 export class ColumnModule extends AbstractApiModule {
@@ -18,7 +19,7 @@ export class ColumnModule extends AbstractApiModule {
   async edit(data: EditColumnRequest) {
     const { id, ...rest } = data;
 
-    return this.fetcher<EditColumnRequest>(`column/${id}`, {
+    return this.fetcher<EditColumnResponse>(`column/${id}`, {
       method: "PATCH",
       data: rest,
     }).then((res) => res.data);
