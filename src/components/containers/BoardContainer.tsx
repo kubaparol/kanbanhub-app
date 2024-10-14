@@ -31,6 +31,7 @@ import {
 } from "../forms/CreateColumnForm";
 import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
 import { CreateTaskContainer } from "./CreateTaskContainer";
+import { TaskCard } from "../shared/TaskCard";
 
 export interface BoardContainerProps {
   id?: string;
@@ -154,11 +155,12 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
                   {column.tasks.length > 0 && (
                     <ul className="grid gap-4">
                       {column.tasks.map((task) => (
-                        <li
-                          key={task.id}
-                          className="bg-yellow-100 shadow-sm py-2 px-4 rounded-lg"
-                        >
-                          {task.name}
+                        <li key={task.id}>
+                          <TaskCard
+                            task={task}
+                            onEditClick={() => {}}
+                            onDeleteClick={() => {}}
+                          />
                         </li>
                       ))}
                     </ul>
