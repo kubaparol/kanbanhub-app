@@ -5,6 +5,7 @@ import {
   DeleteBoardRequest,
   DeleteBoardResponse,
   EditBoardRequest,
+  EditBoardResponse,
   GetBoardRequest,
   GetBoardResponse,
   GetBoardsRequest,
@@ -46,7 +47,7 @@ export class BoardModule extends AbstractApiModule {
   async edit(data: EditBoardRequest) {
     const { id, ...rest } = data;
 
-    return this.fetcher<EditBoardRequest>(`board/${id}`, {
+    return this.fetcher<EditBoardResponse>(`board/${id}`, {
       method: "PATCH",
       data: rest,
     }).then((res) => res.data);

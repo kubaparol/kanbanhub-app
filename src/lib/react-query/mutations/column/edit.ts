@@ -12,8 +12,6 @@ export const useEditColumnMutation = () => {
         [BOARD_QUERY_KEY, column.boardId],
         (previousBoard: Board) => {
           if (!previousBoard) return undefined;
-          console.log(column.boardId);
-          console.log(previousBoard.id);
 
           if (column.boardId !== previousBoard.id) {
             return {

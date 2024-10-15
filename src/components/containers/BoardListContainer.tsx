@@ -4,7 +4,6 @@ import {
   useEditBoardMutation,
 } from "@/lib/react-query";
 import { FC, useCallback, useState } from "react";
-import { BoardCard } from "../shared";
 import { Skeleton } from "../ui";
 import { toast } from "sonner";
 import { AlertModal } from "../base/AlertModal";
@@ -17,6 +16,7 @@ import { Board } from "@/services/api/modules/board/types";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
 import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
+import { BoardCard } from "../shared/BoardCard";
 
 export interface BoardListContainerProps {}
 

@@ -1,6 +1,8 @@
 import {
   useDeleteColumnMutation,
+  useDeleteTaskMutation,
   useEditColumnMutation,
+  useEditTaskMutation,
   useGetBoardQuery,
 } from "@/lib";
 import { FC, useCallback, useState } from "react";
@@ -19,13 +21,7 @@ import {
 } from "../ui";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
-import {
-  MoreHorizontal,
-  Pencil,
-  PlusCircle,
-  Slash,
-  Trash2,
-} from "lucide-react";
+import { MoreHorizontal, Pencil, Slash, Trash2 } from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
 import { AlertModal } from "../base/AlertModal";
 import { toast } from "sonner";
@@ -36,6 +32,10 @@ import {
   CreateColumnFormValues,
 } from "../forms/CreateColumnForm";
 import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
+import { CreateTaskContainer } from "./CreateTaskContainer";
+import { TaskCard } from "../shared/TaskCard";
+import { Task } from "@/services/api/modules/task/types";
+import { CreateTaskForm, CreateTaskFormValues } from "../forms/CreateTaskForm";
 
 export interface BoardContainerProps {
   id?: string;
@@ -47,12 +47,20 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
   const [columnToEdit, setColumnToEdit] = useState<Column | null>(null);
   const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
 
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
+
   const { data: board, isFetching: isGettingBoard } = useGetBoardQuery({ id });
 
   const { mutateAsync: editColumn } = useEditColumnMutation();
 
   const { mutateAsync: deleteColumn, isPending: isDeletingColumn } =
     useDeleteColumnMutation();
+
+  const { mutateAsync: editTask } = useEditTaskMutation(id!);
+
+  const { mutateAsync: deleteTask, isPending: isDeletingTask } =
+    useDeleteTaskMutation(id!);
 
   const editColumnHandler = useCallback(
     async (values: CreateColumnFormValues) => {
@@ -77,11 +85,40 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
       await deleteColumn({ id: columnToDelete });
 
       setColumnToDelete(null);
-      toast.success("Board deleted successfully");
+      toast.success("Column deleted successfully");
     } catch (error) {
-      toast.error("Failed to delete board");
+      toast.error("Failed to delete column");
     }
   }, [columnToDelete, deleteColumn]);
+
+  const editTaskHandler = useCallback(
+    async (values: CreateTaskFormValues) => {
+      try {
+        if (!taskToEdit) return;
+
+        await editTask({ id: taskToEdit.id, ...values });
+
+        setTaskToEdit(null);
+        toast.success("Task edited successfully");
+      } catch (error) {
+        toast.error("Failed to edit task");
+      }
+    },
+    [taskToEdit, editTask]
+  );
+
+  const deleteTaskHandler = useCallback(async () => {
+    try {
+      if (!taskToDelete) return;
+
+      await deleteTask({ id: taskToDelete });
+
+      setTaskToDelete(null);
+      toast.success("Task deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete task");
+    }
+  }, [taskToDelete, deleteTask]);
 
   return (
     <>
@@ -115,7 +152,7 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
               description="Create a new column to get started"
             />
           ) : (
-            <ul className="grid grid-flow-col auto-cols-[minmax(300px,_400px)] gap-6">
+            <ul className="grid grid-flow-col auto-cols-[minmax(300px,_400px)] gap-6 items-start overflow-x-scroll">
               {board?.columns.map((column) => (
                 <li
                   key={column.id}
@@ -150,16 +187,30 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
                     </DropdownMenu>
                   </header>
 
-                  <ul className="grid gap-4">
-                    {/* <li className="bg-yellow-100 shadow-sm py-2 px-4 rounded-lg">
-                    Task 1
-                  </li> */}
-                  </ul>
+                  {column.tasks.length === 0 && (
+                    <p className="text-center italic text-gray-400 font-light text-sm py-4">
+                      No tasks
+                    </p>
+                  )}
 
-                  <Button variant="outline" className="w-full mt-auto">
-                    Add task
-                    <PlusCircle className="ml-2 size-4" />
-                  </Button>
+                  {column.tasks.length > 0 && (
+                    <ul className="grid gap-4">
+                      {column.tasks.map((task) => (
+                        <li key={task.id}>
+                          <TaskCard
+                            task={task}
+                            onEditClick={() => setTaskToEdit(task)}
+                            onDeleteClick={() => setTaskToDelete(task.id)}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <CreateTaskContainer
+                    boardId={board.id}
+                    columnId={column.id}
+                  />
                 </li>
               ))}
             </ul>
@@ -183,9 +234,34 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
         open={!!columnToDelete}
         onOpenChange={() => setColumnToDelete(null)}
         title="Are you absolutely sure?"
-        description="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+        description="This action cannot be undone. It will permanently delete the column and all tasks contained within it."
         isLoading={isDeletingColumn}
         onConfirm={deleteColumnHandler}
+      />
+
+      <Modal
+        open={!!taskToEdit}
+        onOpenChange={() => setTaskToEdit(null)}
+        title="Edit task"
+        description="Update the details below to edit the task"
+      >
+        <CreateTaskForm
+          boardId={id!}
+          initialValues={{
+            name: taskToEdit?.name || "",
+            columnId: taskToEdit?.columnId || "",
+          }}
+          onFormSubmit={editTaskHandler}
+        />
+      </Modal>
+
+      <AlertModal
+        open={!!taskToDelete}
+        onOpenChange={() => setTaskToDelete(null)}
+        title="Are you absolutely sure?"
+        description="This action cannot be undone. It will permanently delete the task."
+        isLoading={isDeletingTask}
+        onConfirm={deleteTaskHandler}
       />
     </>
   );

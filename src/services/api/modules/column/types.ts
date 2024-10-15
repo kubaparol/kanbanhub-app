@@ -1,6 +1,9 @@
+import { Task } from "../task/types";
+
 export interface Column {
   id: string;
   name: string;
+  tasks: Array<Task>;
   createdAt: string;
   updatedAt: string;
 }

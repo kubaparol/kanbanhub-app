@@ -1,13 +1,13 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import {
   RouteObject,
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
 import { BaseLayout } from "@/components/layouts/BaseLayout";
-import BoardPage from "@/pages/board";
 
 const HomePage = lazy(() => import("@/pages/home"));
+const BoardPage = lazy(() => import("@/pages/board"));
 
 const routes: RouteObject = {
   path: "/",
@@ -15,11 +15,19 @@ const routes: RouteObject = {
   children: [
     {
       path: "",
-      element: <HomePage />,
+      element: (
+        <Suspense fallback={<div />}>
+          <HomePage />
+        </Suspense>
+      ),
     },
     {
       path: "/boards/:id",
-      element: <BoardPage />,
+      element: (
+        <Suspense fallback={<div />}>
+          <BoardPage />
+        </Suspense>
+      ),
     },
   ],
 };
