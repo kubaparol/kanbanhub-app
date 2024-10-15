@@ -99,7 +99,10 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
         description="Update the details below to edit the board"
       >
         <CreateBoardForm
-          initialValues={{ name: boardToEdit?.name || "" }}
+          initialValues={{
+            name: boardToEdit?.name || "",
+            description: boardToEdit?.description || "",
+          }}
           onFormSubmit={editBoardHandler}
         />
       </Modal>

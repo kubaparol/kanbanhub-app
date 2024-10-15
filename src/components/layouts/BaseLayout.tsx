@@ -8,6 +8,7 @@ export const BaseLayout: FC<BaseLayoutProps> = () => {
   return (
     <div className="min-h-screen bg-dotted-pattern">
       <Header />
+
       <main>
         <Outlet />
       </main>
