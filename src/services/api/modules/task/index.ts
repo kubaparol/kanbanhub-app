@@ -18,7 +18,7 @@ export class TaskModule extends AbstractApiModule {
   async edit(data: EditTaskRequest) {
     const { id, ...rest } = data;
 
-    return this.fetcher<EditTaskResponse>(`column/${id}`, {
+    return this.fetcher<EditTaskResponse>(`task/${id}`, {
       method: "PATCH",
       data: rest,
     }).then((res) => res.data);
@@ -27,7 +27,7 @@ export class TaskModule extends AbstractApiModule {
   async delete(data: DeleteTaskRequest) {
     const { id, ...rest } = data;
 
-    return this.fetcher<DeleteTaskResponse>(`column/${id}`, {
+    return this.fetcher<DeleteTaskResponse>(`task/${id}`, {
       method: "DELETE",
       data: rest,
     }).then((res) => res.data);
