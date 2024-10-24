@@ -8,10 +8,8 @@ export const Header: FC<HeaderProps> = (props) => {
   const { className, ...rest } = props;
 
   return (
-    <header {...rest} className={cn("", className)}>
-      <div className="wrapper flex-between">
-        <Logo />
-      </div>
+    <header {...rest} className={cn("wrapper", className)}>
+      <Logo />
     </header>
   );
 };

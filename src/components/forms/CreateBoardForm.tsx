@@ -10,6 +10,8 @@ import {
   FormMessage,
   Input,
   Button,
+  FormLabel,
+  Textarea,
 } from "../ui";
 import { Loader2 } from "lucide-react";
 
@@ -18,6 +20,10 @@ const createBoardFormSchema = z.object({
     .string()
     .min(3, "Name must be at least 3 characters")
     .max(255, "Name must be at most 255 characters"),
+  description: z
+    .string()
+    .min(3, "Description must be at least 3 characters")
+    .max(500, "Description must be at most 500 characters"),
 });
 
 export type CreateBoardFormValues = z.infer<typeof createBoardFormSchema>;
@@ -34,6 +40,7 @@ export const CreateBoardForm: FC<CreateBoardFormProps> = (props) => {
     resolver: zodResolver(createBoardFormSchema),
     defaultValues: {
       name: initialValues?.name || "",
+      description: initialValues?.description || "",
     },
   });
 
@@ -47,8 +54,32 @@ export const CreateBoardForm: FC<CreateBoardFormProps> = (props) => {
           name="name"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Name</FormLabel>
+
               <FormControl>
-                <Input {...field} placeholder="My example board" />
+                <Input
+                  {...field}
+                  placeholder="e.g., Marketing Campaign Q4 Board"
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+
+              <FormControl>
+                <Textarea
+                  {...field}
+                  placeholder="e.g., Manage tasks, track progress, and collaborate with the team on the Q4 marketing campaign"
+                />
               </FormControl>
 
               <FormMessage />

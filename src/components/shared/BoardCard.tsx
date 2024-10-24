@@ -71,7 +71,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
                 onClick={(evt) => dropdownMenuClickHandler(evt, onEditClick)}
               >
                 <Pencil className="mr-2 h-4 w-4" />
-                <span>Edit name</span>
+                <span>Edit</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem
@@ -84,10 +84,8 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
           </DropdownMenu>
         </div>
 
-        <CardDescription className="font-light line-clamp-2">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt,
-          optio, esse molestias rerum sint blanditiis, nesciunt numquam
-          aspernatur velit veritatis sequi ut fugiat iure.
+        <CardDescription className="font-light line-clamp-3">
+          {board.description}
         </CardDescription>
       </CardHeader>
 
@@ -98,13 +96,8 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
         </div>
       </CardContent> */}
 
-      <CardFooter className="flex-between">
-        {/* <div className="flex-center gap-1 text-gray-600">
-          <ClipboardList size={18} />
-          <p className="text-sm">10</p>
-        </div> */}
-
-        <p className="text-gray-500 text-xs">
+      <CardFooter>
+        <p className="text-gray-500 text-xs ml-auto">
           Updated {dayjs(board.updatedAt).format("D MMMM YYYY hh:mm A")}
         </p>
       </CardFooter>

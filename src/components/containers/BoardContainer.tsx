@@ -122,7 +122,20 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
 
   return (
     <>
-      {isGettingBoard && <Skeleton className="h-5 w-72" />}
+      {isGettingBoard && (
+        <div className="grid gap-14">
+          <div className="flex justify-between">
+            <Skeleton className="h-5 w-72" />
+            <Skeleton className="h-[40px] w-[130px]" />
+          </div>
+
+          <div className="grid grid-flow-col auto-cols-[360px] gap-6">
+            <Skeleton className="h-[400px]" />
+            <Skeleton className="h-[400px]" />
+            <Skeleton className="h-[400px]" />
+          </div>
+        </div>
+      )}
 
       {!isGettingBoard && board && (
         <>
@@ -152,7 +165,7 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
               description="Create a new column to get started"
             />
           ) : (
-            <ul className="grid grid-flow-col auto-cols-[minmax(300px,_400px)] gap-6 items-start overflow-x-scroll">
+            <ul className="grid grid-flow-col auto-cols-[360px] gap-6 items-start overflow-x-auto flex-1">
               {board?.columns.map((column) => (
                 <li
                   key={column.id}

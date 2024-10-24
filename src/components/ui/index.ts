@@ -12,4 +12,5 @@ export * from "./select";
 export * from "./skeleton";
 export * from "./sonner";
 export * from "./sonner";
+export * from "./textarea";
 export * from "./tooltip";

@@ -65,7 +65,7 @@ export const CreateTaskForm: FC<CreateTaskFormProps> = (props) => {
               <FormLabel>Name</FormLabel>
 
               <FormControl>
-                <Input {...field} placeholder="My example column" />
+                <Input {...field} placeholder="e.g., Prepare presentation" />
               </FormControl>
 
               <FormMessage />

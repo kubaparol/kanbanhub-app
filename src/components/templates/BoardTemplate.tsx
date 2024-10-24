@@ -11,7 +11,10 @@ export const BoardTemplate: FC<BoardTemplateProps> = (props) => {
   const { id, className, ...rest } = props;
 
   return (
-    <section {...rest} className={cn("wrapper grid gap-14", className)}>
+    <section
+      {...rest}
+      className={cn("wrapper flex flex-col gap-14 flex-1", className)}
+    >
       <BoardContainer id={id} />
     </section>
   );

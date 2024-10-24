@@ -3,6 +3,7 @@ import { Column } from "../column/types";
 export interface Board {
   id: string;
   name: string;
+  description: string;
   columns: Array<Column>;
   createdAt: string;
   updatedAt: string;
@@ -11,6 +12,7 @@ export interface Board {
 /* Create */
 export interface CreateBoardRequest {
   name: string;
+  description: string;
 }
 
 export interface CreateBoardResponse extends CreateBoardRequest {

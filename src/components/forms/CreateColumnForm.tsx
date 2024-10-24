@@ -62,7 +62,7 @@ export const CreateColumnForm: FC<CreateColumnFormProps> = (props) => {
               <FormLabel>Name</FormLabel>
 
               <FormControl>
-                <Input {...field} placeholder="My example column" />
+                <Input {...field} placeholder="e.g., To Do" />
               </FormControl>
 
               <FormMessage />

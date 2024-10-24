@@ -71,7 +71,7 @@
 @layer utilities {
   /* ===== UTILITIES */
   .wrapper {
-    @apply m-auto w-full max-w-[1536px] px-3 py-4 sm:px-6;
+    @apply mx-auto w-full max-w-[1536px] px-3 py-4 sm:px-6;
   }
 
   /* ===== ALIGNMENTS */

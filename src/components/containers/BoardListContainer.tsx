@@ -73,7 +73,7 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
         {isGettingBoards &&
           Array.from({ length: 3 }).map((_, index) => (
             <li key={index}>
-              <Skeleton className="h-[90px]" />
+              <Skeleton className="h-[146px]" />
             </li>
           ))}
 
@@ -99,7 +99,10 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
         description="Update the details below to edit the board"
       >
         <CreateBoardForm
-          initialValues={{ name: boardToEdit?.name || "" }}
+          initialValues={{
+            name: boardToEdit?.name || "",
+            description: boardToEdit?.description || "",
+          }}
           onFormSubmit={editBoardHandler}
         />
       </Modal>
