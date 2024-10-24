@@ -73,7 +73,7 @@ export const BoardListContainer: FC<BoardListContainerProps> = () => {
         {isGettingBoards &&
           Array.from({ length: 3 }).map((_, index) => (
             <li key={index}>
-              <Skeleton className="h-[90px]" />
+              <Skeleton className="h-[146px]" />
             </li>
           ))}
 

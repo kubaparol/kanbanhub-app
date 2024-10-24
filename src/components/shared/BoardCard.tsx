@@ -71,7 +71,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
                 onClick={(evt) => dropdownMenuClickHandler(evt, onEditClick)}
               >
                 <Pencil className="mr-2 h-4 w-4" />
-                <span>Edit name</span>
+                <span>Edit</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem
