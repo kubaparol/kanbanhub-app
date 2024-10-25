@@ -48,7 +48,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
     <Card
       {...rest}
       className={cn(
-        "shadow-[0_0_42px_-18px_rgba(0,0,0,0.3)] border-none rounded-3xl transition-all duration-300 ease-out hover:shadow-[0_0_42px_-18px_rgba(0,0,0,0.05)] hover:bg-secondary",
+        "shadow-[0_0_42px_-18px_rgba(0,0,0,0.3)] flex flex-col justify-between h-full border-none rounded-3xl transition-all duration-300 ease-out hover:shadow-[0_0_42px_-18px_rgba(0,0,0,0.05)] hover:bg-secondary",
         className
       )}
     >
@@ -96,7 +96,7 @@ export const BoardCard: FC<BoardCardProps> = (props) => {
         </div>
       </CardContent> */}
 
-      <CardFooter>
+      <CardFooter className="">
         <p className="text-gray-500 text-xs ml-auto">
           Updated {dayjs(board.updatedAt).format("D MMMM YYYY hh:mm A")}
         </p>
