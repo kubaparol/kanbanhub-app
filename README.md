@@ -1,4 +1,4 @@
-# KanbanHub
+# KanbanHub App
 
   <div align="center">
     <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000&style=flat" alt="react" />
@@ -17,7 +17,7 @@
 
 &nbsp;
 
-Click to see live version: [KanbanHub](https://kanbanhub-app.vercel.app/)!
+Click to see live version: [KanbanHub App](https://kanbanhub-app.vercel.app/)!
 
 ## Table of Contents
 
@@ -35,9 +35,9 @@ Click to see live version: [KanbanHub](https://kanbanhub-app.vercel.app/)!
 
 ## Overview
 
-![KanbanHub home page](/public/assets/images/hero.png)
+![KanbanHub App home page](/public/assets/images/hero.png)
 
-**KanbanHub** is a kanban-style task management application that allows users to create, edit, and manage project boards with full control over columns and tasks. It provides an intuitive drag-and-drop interface for organizing tasks within and across columns.
+**KanbanHub App** is a kanban-style task management application that allows users to create, edit, and manage project boards with full control over columns and tasks. It provides an intuitive drag-and-drop interface for organizing tasks within and across columns.
 
 ### Features
 
@@ -49,7 +49,7 @@ Click to see live version: [KanbanHub](https://kanbanhub-app.vercel.app/)!
 
 ### Tech Stack
 
-**KanbanHub** is built with a robust and efficient tech stack:
+**KanbanHub App** is built with a robust and efficient tech stack:
 
 - [React](https://reactjs.dev/) for building the user interface
 - [TypeScript](https://www.typescriptlang.org/) for static typing
@@ -68,7 +68,7 @@ Click to see live version: [KanbanHub](https://kanbanhub-app.vercel.app/)!
 
 ## Getting Started
 
-To run **KanbanHub** locally, follow these steps:
+To run **KanbanHub App** locally, follow these steps:
 
 1. Clone the repository:
 
