@@ -12,16 +12,11 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
   Skeleton,
 } from "../ui";
 import { Link } from "react-router-dom";
 import { AppUrls } from "@/router/urls";
-import { MoreHorizontal, Pencil, Slash, Trash2 } from "lucide-react";
+import { Slash } from "lucide-react";
 import { CreateColumnContainer } from "./CreateColumnContainer";
 import { AlertModal } from "../base/AlertModal";
 import { toast } from "sonner";
@@ -32,11 +27,9 @@ import {
   CreateColumnFormValues,
 } from "../forms/CreateColumnForm";
 import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
-import { CreateTaskContainer } from "./CreateTaskContainer";
-import { TaskCard } from "../shared/TaskCard";
 import { Task } from "@/services/api/modules/task/types";
 import { CreateTaskForm, CreateTaskFormValues } from "../forms/CreateTaskForm";
-
+import { ColumnContainer } from "./ColumnContainer";
 export interface BoardContainerProps {
   id?: string;
 }
@@ -50,7 +43,7 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
-  const { data: board, isFetching: isGettingBoard } = useGetBoardQuery({ id });
+  const { data: board, isLoading: isGettingBoard } = useGetBoardQuery({ id });
 
   const { mutateAsync: editColumn } = useEditColumnMutation();
 
@@ -120,6 +113,28 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
     }
   }, [taskToDelete, deleteTask]);
 
+  const changeTaskOrderHandler = useCallback(
+    async (order: number, columnId: string, taskId: string) => {
+      try {
+        await editTask({ id: taskId, columnId, order });
+      } catch (error) {
+        toast.error("Failed to change task order");
+      }
+    },
+    [editTask]
+  );
+
+  const changeTaskColumnHandler = useCallback(
+    async (taskId: string, columnId: string) => {
+      try {
+        await editTask({ id: taskId, columnId });
+      } catch (error) {
+        toast.error("Failed to change task column");
+      }
+    },
+    [editTask]
+  );
+
   return (
     <>
       {isGettingBoard && (
@@ -167,62 +182,20 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
           ) : (
             <ul className="grid grid-flow-col auto-cols-[360px] gap-6 items-start overflow-x-auto flex-1">
               {board?.columns.map((column) => (
-                <li
-                  key={column.id}
-                  className="flex flex-col gap-4 shadow-lg rounded-lg bg-teal-50 backdrop-blur-sm p-4"
-                >
-                  <header className="flex-between">
-                    <p className="text-lg font-semibold">{column.name}</p>
-
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal size={20} />
-                        </Button>
-                      </DropdownMenuTrigger>
-
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => setColumnToEdit(column)}
-                        >
-                          <Pencil className="mr-2 h-4 w-4" />
-                          <span>Edit</span>
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem
-                          onClick={() => setColumnToDelete(column.id)}
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          <span>Delete</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </header>
-
-                  {column.tasks.length === 0 && (
-                    <p className="text-center italic text-gray-400 font-light text-sm py-4">
-                      No tasks
-                    </p>
-                  )}
-
-                  {column.tasks.length > 0 && (
-                    <ul className="grid gap-4">
-                      {column.tasks.map((task) => (
-                        <li key={task.id}>
-                          <TaskCard
-                            task={task}
-                            onEditClick={() => setTaskToEdit(task)}
-                            onDeleteClick={() => setTaskToDelete(task.id)}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  <CreateTaskContainer
+                <li key={column.id} className="grid gap-4">
+                  <ColumnContainer
                     boardId={board.id}
-                    columnId={column.id}
+                    column={column}
+                    onEditColumnClick={() => setColumnToEdit(column)}
+                    onDeleteColumnClick={() => setColumnToDelete(column.id)}
+                    onEditTaskClick={(task) => setTaskToEdit(task)}
+                    onDeleteTaskClick={(taskId) => setTaskToDelete(taskId)}
+                    onChangeTaskOrder={(order, taskId) =>
+                      changeTaskOrderHandler(order, column.id, taskId)
+                    }
+                    onChangeTaskColumn={(taskId) =>
+                      changeTaskColumnHandler(taskId, column.id)
+                    }
                   />
                 </li>
               ))}

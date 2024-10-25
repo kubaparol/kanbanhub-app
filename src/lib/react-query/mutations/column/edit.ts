@@ -13,17 +13,21 @@ export const useEditColumnMutation = () => {
         (previousBoard: Board) => {
           if (!previousBoard) return undefined;
 
-          if (column.boardId !== previousBoard.id) {
+          const updatedColumn = { ...column, tasks: column.tasks || [] };
+
+          if (updatedColumn.boardId !== previousBoard.id) {
             return {
               ...previousBoard,
-              columns: previousBoard.columns.filter((c) => c.id !== column.id),
+              columns: previousBoard.columns.filter(
+                (c) => c.id !== updatedColumn.id
+              ),
             };
           }
 
           return {
             ...previousBoard,
             columns: previousBoard.columns.map((prevColumn) =>
-              prevColumn.id === column.id ? column : prevColumn
+              prevColumn.id === updatedColumn.id ? updatedColumn : prevColumn
             ),
           };
         }
