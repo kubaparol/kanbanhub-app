@@ -9,7 +9,7 @@ export const Logo: FC<LogoProps> = (props) => {
   return (
     <div {...rest} className={cn("flex items-center gap-3", className)}>
       <img
-        src="public/assets/images/logo.png"
+        src="/assets/images/logo.png"
         alt="KanbanHub Logo"
         className="max-w-36"
       />
