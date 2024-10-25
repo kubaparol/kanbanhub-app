@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "@/constants";
 import { TaskCard } from "../shared/TaskCard";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export interface ColumnContainerProps extends ComponentPropsWithoutRef<"div"> {
   boardId: string;
@@ -47,6 +48,7 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
     className,
     ...rest
   } = props;
+  const [autoAnimate] = useAutoAnimate();
 
   const [tasks, setTasks] = useState<Task[]>(column.tasks);
 
@@ -106,7 +108,7 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
     >
       <div
         className={cn(
-          "absolute inset-0 flex flex-col items-center justify-center bg-teal-200/50 rounded-lg backdrop-blur-sm transition-opacity duration-300 ease-in-out",
+          "absolute inset-0 flex flex-col z-10 items-center justify-center bg-teal-200/50 rounded-lg backdrop-blur-sm transition-opacity duration-300 ease-in-out",
           isOver && canDrop ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       >
@@ -115,10 +117,7 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
       </div>
 
       <header className="flex-between">
-        <div className="grid">
-          <p className="text-lg font-semibold">{column.name}</p>
-          <p className="text-sm font-semibold">{column.id}</p>
-        </div>
+        <p className="text-lg font-semibold">{column.name}</p>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -149,18 +148,21 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
       )}
 
       {tasks.length > 0 && (
-        <ul className="grid gap-4">
-          {tasks.map((task, index) => (
-            <TaskCard
-              key={task.id}
-              index={index}
-              task={task}
-              onTaskHover={hoverHandler}
-              onTaskDrop={() => dropHandler(task.id)}
-              onEditClick={() => onEditTaskClick(task)}
-              onDeleteClick={() => onDeleteTaskClick(task.id)}
-            />
-          ))}
+        <ul className="grid gap-4" ref={autoAnimate}>
+          {tasks.map(
+            (task, index) =>
+              task && (
+                <TaskCard
+                  key={task.id}
+                  index={index}
+                  task={task}
+                  onTaskHover={hoverHandler}
+                  onTaskDrop={() => dropHandler(task.id)}
+                  onEditClick={() => onEditTaskClick(task)}
+                  onDeleteClick={() => onDeleteTaskClick(task.id)}
+                />
+              )
+          )}
         </ul>
       )}
 
