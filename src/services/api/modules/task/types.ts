@@ -1,6 +1,7 @@
 export interface Task {
   id: string;
   name: string;
+  order: number;
   columnId: string;
   createdAt: string;
   updatedAt: string;
@@ -20,6 +21,7 @@ export interface CreateTaskResponse extends CreateTaskRequest {
 /* Delete */
 export interface EditTaskRequest extends Partial<CreateTaskRequest> {
   id: string;
+  order?: number;
 }
 
 export interface EditTaskResponse extends Task {
