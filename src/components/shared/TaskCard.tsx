@@ -105,8 +105,8 @@ export const TaskCard: FC<TaskCardProps> = (props) => {
       ref={ref}
       data-handler-id={handlerId}
       className={cn(
-        "bg-yellow-100 rounded-lg transition-all cursor-move",
-        isDragging && "opacity-0"
+        "bg-yellow-100 rounded-lg transition-all cursor-move h-fit",
+        isDragging && "opacity-30"
       )}
     >
       <CardHeader className="p-3">

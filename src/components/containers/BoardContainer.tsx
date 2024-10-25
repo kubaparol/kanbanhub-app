@@ -30,12 +30,15 @@ import { NoDataPlaceholder } from "../shared/NoDataPlaceholder";
 import { Task } from "@/services/api/modules/task/types";
 import { CreateTaskForm, CreateTaskFormValues } from "../forms/CreateTaskForm";
 import { ColumnContainer } from "./ColumnContainer";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 export interface BoardContainerProps {
   id?: string;
 }
 
 export const BoardContainer: FC<BoardContainerProps> = (props) => {
   const { id } = props;
+
+  const [autoAnimate] = useAutoAnimate();
 
   const [columnToEdit, setColumnToEdit] = useState<Column | null>(null);
   const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
@@ -180,7 +183,10 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
               description="Create a new column to get started"
             />
           ) : (
-            <ul className="grid grid-flow-col auto-cols-[360px] gap-6 items-start overflow-x-auto flex-1">
+            <ul
+              className="grid grid-flow-col auto-cols-[360px] gap-6 items-start overflow-x-auto flex-1"
+              ref={autoAnimate}
+            >
               {board?.columns.map((column) => (
                 <li key={column.id} className="grid gap-4">
                   <ColumnContainer
