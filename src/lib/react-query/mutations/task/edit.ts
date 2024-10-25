@@ -1,66 +1,89 @@
 import { api } from "@/services";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BOARD_QUERY_KEY } from "../..";
-import { EditTaskRequest } from "@/services/api/modules/task/types";
+import { useMutation } from "@tanstack/react-query";
+import { BOARD_QUERY_KEY, queryClient } from "../..";
+import { EditTaskRequest, Task } from "@/services/api/modules/task/types";
+import { Board } from "@/services/api/modules/board/types";
 
 export const useEditTaskMutation = (boardId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (data: EditTaskRequest) => api.task.edit(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [BOARD_QUERY_KEY, boardId] });
+    onMutate: (updatedTask) => {
+      queryClient.setQueryData(
+        [BOARD_QUERY_KEY, boardId],
+        (previousBoard: Board | undefined) => {
+          if (!previousBoard) return undefined;
 
-      // This is an example of how you can update the cache manually
+          const previousTask = previousBoard.columns
+            .flatMap((column) => column.tasks)
+            .find((task) => task.id === updatedTask.id);
 
-      // queryClient.setQueryData(
-      //   [BOARD_QUERY_KEY, boardId],
-      //   (previousBoard: Board) => {
-      //     if (!previousBoard) return undefined;
+          if (!previousTask) {
+            return previousBoard;
+          }
 
-      //     const updatedColumns = previousBoard.columns.map((column) => {
-      //       const tasks = column.tasks;
-      //       const foundTask = tasks.find((t) => t.id === task.id);
+          const isColumnChanged =
+            previousTask.columnId !== updatedTask.columnId;
+          const oldOrder = previousTask.order;
+          const newOrder = updatedTask.order!;
 
-      //       const indexTask = tasks.findIndex((t) => t.id === task.id);
+          const newColumns = previousBoard.columns.map((column) => {
+            if (column.id === previousTask.columnId && isColumnChanged) {
+              const tasksWithoutTask = column.tasks.filter(
+                (task) => task.id !== updatedTask.id
+              );
 
-      //       const updatedTasks = foundTask
-      //         ? column.tasks.map((t) => (t.id === task.id ? task : t))
-      //         : [...column.tasks, task];
+              const adjustedTasks = tasksWithoutTask.map((task) => {
+                if (task.order > oldOrder) {
+                  return { ...task, order: task.order - 1 };
+                }
+                return task;
+              });
 
-      //       if (column.id === task.columnId) {
-      //         for (let i = 0; i < updatedTasks.length; i++) {
-      //           if (i >= indexTask) {
-      //             updatedTasks[i].order = updatedTasks[i].order + 1;
-      //           }
-      //         }
+              return {
+                ...column,
+                tasks: adjustedTasks.sort((a, b) => a.order - b.order),
+              };
+            } else if (column.id === updatedTask.columnId) {
+              const tasksWithoutTask = column.tasks.filter(
+                (task) => task.id !== updatedTask.id
+              );
 
-      //         console.log(updatedTasks);
+              let adjustedTasks = tasksWithoutTask;
 
-      //         return {
-      //           ...column,
-      //           tasks: foundTask
-      //             ? column.tasks.map((t) => (t.id === task.id ? task : t))
-      //             : [...column.tasks, task],
-      //         };
-      //       }
+              if (!isColumnChanged) {
+                if (newOrder > oldOrder) {
+                  adjustedTasks = adjustedTasks.map((task) => {
+                    if (task.order > oldOrder && task.order <= newOrder) {
+                      return { ...task, order: task.order - 1 };
+                    }
+                    return task;
+                  });
+                } else if (newOrder < oldOrder) {
+                  adjustedTasks = adjustedTasks.map((task) => {
+                    if (task.order >= newOrder && task.order < oldOrder) {
+                      return { ...task, order: task.order + 1 };
+                    }
+                    return task;
+                  });
+                }
+              }
 
-      //       if (foundTask) {
-      //         return {
-      //           ...column,
-      //           tasks: column.tasks.filter((t) => t.id !== foundTask.id),
-      //         };
-      //       }
+              console.log(updatedTask);
 
-      //       return column;
-      //     });
+              adjustedTasks.push(updatedTask as Task);
 
-      //     return {
-      //       ...previousBoard,
-      //       columns: updatedColumns,
-      //     };
-      //   }
-      // );
+              return {
+                ...column,
+                tasks: adjustedTasks.sort((a, b) => a.order - b.order),
+              };
+            }
+
+            return column;
+          });
+
+          return { ...previousBoard, columns: newColumns };
+        }
+      );
     },
   });
 };

@@ -117,9 +117,9 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
   }, [taskToDelete, deleteTask]);
 
   const changeTaskOrderHandler = useCallback(
-    async (order: number, columnId: string, taskId: string) => {
+    async (order: number, columnId: string, task: Task) => {
       try {
-        await editTask({ id: taskId, columnId, order });
+        await editTask({ id: task.id, name: task.name, columnId, order });
       } catch (error) {
         toast.error("Failed to change task order");
       }
@@ -128,9 +128,9 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
   );
 
   const changeTaskColumnHandler = useCallback(
-    async (taskId: string, columnId: string) => {
+    async (task: Task, columnId: string) => {
       try {
-        await editTask({ id: taskId, columnId });
+        await editTask({ id: task.id, name: task.name, columnId });
       } catch (error) {
         toast.error("Failed to change task column");
       }
@@ -196,11 +196,11 @@ export const BoardContainer: FC<BoardContainerProps> = (props) => {
                     onDeleteColumnClick={() => setColumnToDelete(column.id)}
                     onEditTaskClick={(task) => setTaskToEdit(task)}
                     onDeleteTaskClick={(taskId) => setTaskToDelete(taskId)}
-                    onChangeTaskOrder={(order, taskId) =>
-                      changeTaskOrderHandler(order, column.id, taskId)
+                    onChangeTaskOrder={(order, task) =>
+                      changeTaskOrderHandler(order, column.id, task)
                     }
-                    onChangeTaskColumn={(taskId) =>
-                      changeTaskColumnHandler(taskId, column.id)
+                    onChangeTaskColumn={(task) =>
+                      changeTaskColumnHandler(task, column.id)
                     }
                   />
                 </li>

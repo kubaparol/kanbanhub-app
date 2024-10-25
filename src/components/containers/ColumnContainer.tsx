@@ -31,8 +31,8 @@ export interface ColumnContainerProps extends ComponentPropsWithoutRef<"div"> {
   onDeleteColumnClick: () => void;
   onEditTaskClick: (task: Task) => void;
   onDeleteTaskClick: (taskId: string) => void;
-  onChangeTaskOrder: (order: number, taskId: string) => Promise<void>;
-  onChangeTaskColumn: (taskId: string) => Promise<void>;
+  onChangeTaskOrder: (order: number, task: Task) => Promise<void>;
+  onChangeTaskColumn: (task: Task) => Promise<void>;
 }
 
 export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
@@ -68,15 +68,15 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
   }, []);
 
   const dropHandler = useCallback(
-    async (taskId: string) => {
+    async (task: Task) => {
       try {
-        const found = tasks.findIndex((task) => task.id === taskId);
+        const found = tasks.findIndex((t) => t.id === task.id);
 
         if (found === -1) {
           return;
         }
 
-        await onChangeTaskOrder(found + 1, taskId);
+        await onChangeTaskOrder(found + 1, task);
       } catch (error) {
         toast.error("Failed to change task order");
       }
@@ -87,7 +87,7 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: ItemTypes.TASK,
-      drop: (item: Task) => onChangeTaskColumn(item.id),
+      drop: (item: Task) => onChangeTaskColumn(item),
       canDrop: (item: Task) => item.columnId !== column.id,
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -157,7 +157,7 @@ export const ColumnContainer: FC<ColumnContainerProps> = (props) => {
                   index={index}
                   task={task}
                   onTaskHover={hoverHandler}
-                  onTaskDrop={() => dropHandler(task.id)}
+                  onTaskDrop={() => dropHandler(task)}
                   onEditClick={() => onEditTaskClick(task)}
                   onDeleteClick={() => onDeleteTaskClick(task.id)}
                 />
